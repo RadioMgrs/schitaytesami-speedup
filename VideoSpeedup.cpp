@@ -20,8 +20,7 @@ VideoSpeedup::VideoSpeedup(const string& invideoname, const string& inpolyname)
 
 	vector<Point2f> poly[2];
 
-	ifstream polyin;
-	polyin.open(inpolyname);
+	ifstream polyin(inpolyname);
 	dual = false;
 
 	for(;;)
