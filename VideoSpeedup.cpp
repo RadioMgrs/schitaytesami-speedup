@@ -131,11 +131,6 @@ void VideoSpeedup::ProcessVideo(int erodeRadius, int skipFrames, const char *sig
 				continue;
 			}
 
-			/*if(i < 766000)
-			{
-				i++;
-				continue;
-			}*/
 			float val[2];
 			for(int j = 0; j < 1 + (dual? 1 : 0);  j++)
 			{
@@ -188,12 +183,14 @@ void VideoSpeedup::ProcessVideo(int erodeRadius, int skipFrames, const char *sig
 #define OUTWIDTH 640
 #define OUTHEIGHT 480
 
-void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float chunkLength, int slowSpeed, int fastSpeed, float level, float minSpan, float meanSpan)
+void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float chunkLength,
+	int slowSpeed, int fastSpeed, float level, float minSpan, float meanSpan, int startTime)
 {
 	Mat frame;
 
 	cout << "Writing the output video\n";
 	int inrate = in.get(CV_CAP_PROP_FPS);
+	int startmsec = in.get(CV_CAP_PROP_POS_MSEC);
 
 
 	int mind = ceil(minSpan*inrate/2);
@@ -262,7 +259,7 @@ void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float c
 			blur(frame, blurStrong, Size(int(frame.cols/40),int(frame.cols/40)));
 			blur(frame, blurWeak, Size(int(frame.cols/80),int(frame.cols/80)));
 
-			int msec = in.get(CV_CAP_PROP_POS_MSEC);
+			int msec = in.get(CV_CAP_PROP_POS_MSEC)-startmsec+startTime*1000;
 			int hours = msec/(3600*1000);
 			int minutes = (msec % (3600*1000))/(60*1000);
 			int seconds = (msec % (60*1000))/(1000);
@@ -278,7 +275,8 @@ void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float c
 
 			stringstream ss;
 			ss << setfill ('0') << setw(2) <<  hours << ':' << setfill ('0') << setw(2) << minutes << ':'<< setfill ('0') << setw(2) << seconds;
-			//putText(frame_, ss.str(), Point(8,frame_.size().height-16), FONT_HERSHEY_SIMPLEX, 1, Scalar(0,255,255), 2);
+			if(startTime)
+				putText(frame_, ss.str(), Point(8,frame_.size().height-16), FONT_HERSHEY_SIMPLEX, 1, Scalar(0,255,255), 2);
 
 			out << frame_;
 			lastWritten = i;
@@ -320,6 +318,7 @@ struct Param{
 	float chunkLength;
 	bool saveSignal;
 	bool reuseSignal;
+	int startTime; //in seconds from midnight
 
 	Param() {
 		erodeParam = 2;
@@ -332,6 +331,7 @@ struct Param{
 		chunkLength = 12000;
 		saveSignal = true;
 		reuseSignal = false;
+		startTime = 0;
 	}
 		
 };
@@ -386,6 +386,12 @@ int main(int argc, char * argv[])
 			params.reuseSignal = t > 0;
 		}
 
+		if(!strcmpi(argv[n], "-starttime")) {
+			int t;
+			sscanf(argv[n+1], "%d", &t);
+			params.startTime = t;
+		}
+
 
 		n += 2;
 	}
@@ -395,7 +401,8 @@ int main(int argc, char * argv[])
 
 	VideoSpeedup vs = VideoSpeedup(argv[1], argv[2]);
 	vs.ProcessVideo(params.erodeParam, params.skipFrames, (params.saveSignal || params.reuseSignal)? str.c_str() : NULL, params.reuseSignal);
-	vs.SpeedupVideo(argv[3], argv[4], params.chunkLength, params.slowSpeed, params.fastSpeed, params.sensitivity, params.minSpan, params.meanSpan);
+	vs.SpeedupVideo(argv[3], argv[4], params.chunkLength, params.slowSpeed,
+		params.fastSpeed, params.sensitivity, params.minSpan, params.meanSpan, params.startTime);
 
 	return 0;
 }
