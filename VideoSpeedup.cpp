@@ -45,7 +45,7 @@ VideoSpeedup::VideoSpeedup(const string& invideoname, const string& inpolyname)
 
 	dual = poly[1].size() > 0;
 
-	printf("%d\n", poly[0].size());
+	printf("%d\n", int(poly[0].size()));
 
 	maskArea[0] = contourArea(poly[0]);
 	if(dual)	maskArea[1] = contourArea(poly[1]);

@@ -4,11 +4,13 @@
 #ifndef VIDEOSPEEDUP_H
 #define VIDEOSPEEDUP_H
 
+#include <vector>
 #include <iostream>
 #include <fstream>
 #include <cstdio>
 #include <cstring>
 #include <ctime>
+#include <cctype>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/video/background_segm.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -18,6 +20,11 @@
 using namespace cv;
 using namespace std;
 
+int strcmpi(const char* s1, const char* s2)
+{
+	for (; *s1 && *s2 && (toupper(*s1) == toupper(*s2)); ++s1, ++s2);
+	return *s1 - *s2;
+}
 
 class VideoSpeedup {
 
