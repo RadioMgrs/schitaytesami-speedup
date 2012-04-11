@@ -20,7 +20,8 @@ VideoSpeedup::VideoSpeedup(const string& invideoname, const string& inpolyname)
 
 	vector<Point2f> poly[2];
 
-	ifstream polyin(inpolyname);
+	ifstream polyin;
+	polyin.open(inpolyname.c_str(), ifstream::in);
 	dual = false;
 
 	for(;;)
@@ -99,7 +100,7 @@ void VideoSpeedup::ProcessVideo(int erodeRadius, int skipFrames, const char *sig
 	ifstream signalin;
 
 	if(signalFile && reuseSignal)
-		signalin.open(signalFile, ios::in | ios::binary);
+		signalin.open(signalFile.c_str(), ios::in | ios::binary);
 
 
 	if(signalFile && reuseSignal && signalin.good())
@@ -164,7 +165,7 @@ void VideoSpeedup::ProcessVideo(int erodeRadius, int skipFrames, const char *sig
 			for(int j = 0; j < nFrames; j++)
 				signalArray[j+k*nFrames] = signal.at<float>(j,k);
 		ofstream signalout;
-		signalout.open(signalFile, ios::out | ios::binary);
+		signalout.open(signalFile.c_str(), ios::out | ios::binary);
 		if(signalout.good())
 		{
 			signalout.write((char *)signalArray, sizeof(float)*nFrames*2);
@@ -233,7 +234,8 @@ void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float c
 		cout << "2";
 
 		ofstream timelineout;
-		timelineout.open(outvideoname.str()+".timeline");
+		string timelineoutName = outvideoname.str()+".timeline";
+		timelineout.open(timelineoutName.c_str());
 
 		if( !out.isOpened() || !timelineout.good() ) {
 					   printf("VideoWriter failed to open!\n");
