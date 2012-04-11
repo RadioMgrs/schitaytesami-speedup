@@ -100,7 +100,7 @@ void VideoSpeedup::ProcessVideo(int erodeRadius, int skipFrames, const char *sig
 	ifstream signalin;
 
 	if(signalFile && reuseSignal)
-		signalin.open(signalFile.c_str(), ios::in | ios::binary);
+		signalin.open(signalFile, ios::in | ios::binary);
 
 
 	if(signalFile && reuseSignal && signalin.good())
@@ -165,7 +165,7 @@ void VideoSpeedup::ProcessVideo(int erodeRadius, int skipFrames, const char *sig
 			for(int j = 0; j < nFrames; j++)
 				signalArray[j+k*nFrames] = signal.at<float>(j,k);
 		ofstream signalout;
-		signalout.open(signalFile.c_str(), ios::out | ios::binary);
+		signalout.open(signalFile, ios::out | ios::binary);
 		if(signalout.good())
 		{
 			signalout.write((char *)signalArray, sizeof(float)*nFrames*2);
