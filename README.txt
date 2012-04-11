@@ -19,3 +19,6 @@ Options (default):
 -savesignal 0/1 – save the result of background subtraction to reuse later (1)
 -reusesignal 0/1 – reuse the background subtraction from the previous run (0) 
 -starttime %d – seconds from midnight for the stopwatch output. If 0 none will be shown (0) 
+
+// Copyright http://schitaytesami.org, 2012
+// Author: Victor Lempitsky

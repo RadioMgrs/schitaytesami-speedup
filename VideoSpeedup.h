@@ -1,3 +1,6 @@
+// Copyright http://schitaytesami.org, 2012
+// Author: Victor Lempitsky
+
 #ifndef VIDEOSPEEDUP_H
 #define VIDEOSPEEDUP_H
 
