@@ -21,7 +21,7 @@ Options (default):
 -starttime %d – seconds from midnight for the stopwatch output. If 0 none will be shown (0) 
 
 How to build:
-Should build on Windows and latest Ubuntu (following http://mitchtech.net/opencv-ubuntu/)
+Should build on Windows and latest Ubuntu (following http://mitchtech.net/opencv-ubuntu/). On Ubuntu run build.sh after installing OpenCV and configuring pkg-config.
 
 // Copyright http://schitaytesami.org, 2012
 // Author: Victor Lempitsky
