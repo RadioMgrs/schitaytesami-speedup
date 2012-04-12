@@ -8,13 +8,6 @@
 using namespace std;
 
 
-void VideoSpeedup::ResetVideoInput()
-{
-	if(in.isOpened())
-		in.release();
-	in.open(invideoname);
-}
-
 VideoSpeedup::VideoSpeedup(const string& invideoname, const string& inpolyname) : invideoname(invideoname)
 {
 	in = VideoCapture(invideoname);
@@ -187,6 +180,14 @@ void VideoSpeedup::ProcessVideo(int erodeRadius, int skipFrames, const char *sig
 #define PI 3.1415
 #define OUTWIDTH 640
 #define OUTHEIGHT 480
+
+void VideoSpeedup::ResetVideoInput()
+{
+	if(in.isOpened())
+		in.release();
+	in.open(invideoname);
+}
+
 
 void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float chunkLength,
 	int slowSpeed, int fastSpeed, float level, float minSpan, float meanSpan, int startTime)
