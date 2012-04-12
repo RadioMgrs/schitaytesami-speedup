@@ -181,11 +181,11 @@ void VideoSpeedup::ProcessVideo(int erodeRadius, int skipFrames, const char *sig
 #define OUTWIDTH 640
 #define OUTHEIGHT 480
 
-void VideoSpeedup::ResetVideoInput()
+void ResetVideoInput()
 {
-	if(in.isOpened())
+	/*if(in.isOpened())
 		in.release();
-	in.open(invideoname);
+	in.open(invideoname);*/
 }
 
 

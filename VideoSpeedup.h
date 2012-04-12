@@ -50,7 +50,7 @@ public:
 	void ProcessVideo(int erodeRadius, int skipFrames, const char *signalFile = NULL, bool reuseSignal = false);
 	void SpeedupVideo(const string& dir, const string& prefix, float chunkLength,
 		int slowSpeed, int fastSpeed, float level, float minSpan, float meanSpan, int startTime);
-	void ResetVideoInput();
+	//void ResetVideoInput();
 };
 
 
