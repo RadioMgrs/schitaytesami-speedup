@@ -247,7 +247,10 @@ void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float c
 		for(; i < nFrames; i++)
 		{
 			if(chunkFramesWritten > MaxChunkFramesWritten && tmp2.at<float>(i,0) > fastSpeed*0.8 && (tmp2.at<float>(i,1) > fastSpeed*0.8 || !dual))
+			{
+				cout << "ACHTUNG!" << endl;
 				break;
+			}
 			in >> frame;
 
 			if(frame.rows == 0)
