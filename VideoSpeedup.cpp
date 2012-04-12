@@ -10,7 +10,7 @@ using namespace std;
 
 VideoSpeedup::VideoSpeedup(const string& invideoname, const string& inpolyname) : invideoname(invideoname)
 {
-	in = VideoCapture(invideoname);
+	ResetVideoInput();
 	nFrames = in.get(CV_CAP_PROP_FRAME_COUNT);
 
 	//nFrames = 30000;
