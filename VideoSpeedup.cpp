@@ -8,6 +8,13 @@
 using namespace std;
 
 
+void VideoSpeedup::ResetVideoInput()
+{
+	if(in.isOpened())
+		in.release();
+	in.open(invideoname);
+}
+
 VideoSpeedup::VideoSpeedup(const string& invideoname, const string& inpolyname) : invideoname(invideoname)
 {
 	in = VideoCapture(invideoname);

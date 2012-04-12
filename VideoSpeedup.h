@@ -42,13 +42,6 @@ class VideoSpeedup {
 	
 	string invideoname;
 	
-	void ResetVideoInput()
-	{
-		if(in.isOpened())
-			in.release();
-		in.open(invideoname);
-	}
-	
 public:
 	VideoSpeedup(){ }
 	VideoSpeedup(const string& invideoname, const string& inpolyname);
