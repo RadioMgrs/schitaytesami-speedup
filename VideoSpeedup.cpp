@@ -230,7 +230,7 @@ void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float c
 		ostringstream outvideoname;
 		outvideoname << dir << prefix << "_" << chunkIndex << ".avi";
 		cout << "1";
-		VideoWriter out(outvideoname.str(), CV_FOURCC('D','I','V','X'), inrate, Size(OUTWIDTH,OUTHEIGHT), 1);
+		VideoWriter out(outvideoname.str(), CV_FOURCC('X','2','6','4'), inrate, Size(OUTWIDTH,OUTHEIGHT), 1);
 		cout << "2";
 
 		ofstream timelineout;
@@ -280,6 +280,7 @@ void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float c
 				putText(frame_, ss.str(), Point(8,frame_.size().height-16), FONT_HERSHEY_SIMPLEX, 1, Scalar(0,255,255), 2);
 
 			out << frame_;
+			cout << "Frame " << i << " written!" << endl;
 			lastWritten = i;
 
 			
