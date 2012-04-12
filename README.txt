@@ -20,5 +20,8 @@ Options (default):
 -reusesignal 0/1 – reuse the background subtraction from the previous run (0) 
 -starttime %d – seconds from midnight for the stopwatch output. If 0 none will be shown (0) 
 
+How to build:
+Should build on Windows and latest Ubuntu (following http://mitchtech.net/opencv-ubuntu/)
+
 // Copyright http://schitaytesami.org, 2012
 // Author: Victor Lempitsky
