@@ -40,6 +40,15 @@ class VideoSpeedup {
 	Mat mildBlurMask;
 	BackgroundSubtractorMOG2 subtractor[2];
 	
+	string invideoname;
+	
+	void ResetVideoInput()
+	{
+		if(in.isOpened())
+			in.release();
+		in.open(invideoname);
+	}
+	
 public:
 	VideoSpeedup(){ }
 	VideoSpeedup(const string& invideoname, const string& inpolyname);

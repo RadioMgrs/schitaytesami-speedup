@@ -8,7 +8,7 @@
 using namespace std;
 
 
-VideoSpeedup::VideoSpeedup(const string& invideoname, const string& inpolyname)
+VideoSpeedup::VideoSpeedup(const string& invideoname, const string& inpolyname) : invideoname(invideoname)
 {
 	in = VideoCapture(invideoname);
 	nFrames = in.get(CV_CAP_PROP_FRAME_COUNT);
@@ -86,14 +86,12 @@ VideoSpeedup::VideoSpeedup(const string& invideoname, const string& inpolyname)
 		subtract(Scalar(255),mask_,mask[j]);
 		multiply(mask[j],Scalar(255),mask[j]);
 	}
-	
-		//subtractor.bShadowDetection = 0;
-	in.set(CV_CAP_PROP_POS_FRAMES,0);
 }
 
 
 void VideoSpeedup::ProcessVideo(int erodeRadius, int skipFrames, const char *signalFile, bool reuseSignal)
 {
+	ResetVideoInput();
 	Mat frame;
 	Mat crop;
 	Mat motion, motionE;
@@ -186,6 +184,7 @@ void VideoSpeedup::ProcessVideo(int erodeRadius, int skipFrames, const char *sig
 void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float chunkLength,
 	int slowSpeed, int fastSpeed, float level, float minSpan, float meanSpan, int startTime)
 {
+	ResetVideoInput();
 	Mat frame;
 
 	cout << "Writing the output video\n";
@@ -244,11 +243,12 @@ void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float c
 
 		int chunkFramesWritten = 0;
 		lastWritten = -1000000;
+		//cout << "Total number of frames: " << 
 		for(; i < nFrames; i++)
 		{
 			if(chunkFramesWritten > MaxChunkFramesWritten && tmp2.at<float>(i,0) > fastSpeed*0.8 && (tmp2.at<float>(i,1) > fastSpeed*0.8 || !dual))
 			{
-				cout << "ACHTUNG!" << endl;
+				//cout << "ACHTUNG!" << endl;
 				break;
 			}
 			in >> frame;
@@ -283,7 +283,7 @@ void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float c
 				putText(frame_, ss.str(), Point(8,frame_.size().height-16), FONT_HERSHEY_SIMPLEX, 1, Scalar(0,255,255), 2);
 
 			out << frame_;
-			cout << "Frame " << i << " written!" << endl;
+			//cout << "Frame " << i << " written!" << endl;
 			lastWritten = i;
 
 			
