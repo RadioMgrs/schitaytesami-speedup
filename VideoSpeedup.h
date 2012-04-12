@@ -4,6 +4,7 @@
 #ifndef VIDEOSPEEDUP_H
 #define VIDEOSPEEDUP_H
 
+#include <string>
 #include <vector>
 #include <iostream>
 #include <fstream>
@@ -29,7 +30,7 @@ int strcmpi(const char* s1, const char* s2)
 class VideoSpeedup {
 
 	bool dual;
-
+	string invideoname;
 	VideoCapture in;
 	Rect bbox[2];
 	Mat mask[2];
@@ -40,7 +41,6 @@ class VideoSpeedup {
 	Mat mildBlurMask;
 	BackgroundSubtractorMOG2 subtractor[2];
 	
-	string invideoname;
 	
 public:
 	VideoSpeedup(){ }
