@@ -181,14 +181,6 @@ void VideoSpeedup::ProcessVideo(int erodeRadius, int skipFrames, const char *sig
 #define OUTWIDTH 640
 #define OUTHEIGHT 480
 
-void ResetVideoInput()
-{
-	/*if(in.isOpened())
-		in.release();
-	in.open(invideoname);*/
-}
-
-
 void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float chunkLength,
 	int slowSpeed, int fastSpeed, float level, float minSpan, float meanSpan, int startTime)
 {
