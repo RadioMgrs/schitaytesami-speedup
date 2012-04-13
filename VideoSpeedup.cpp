@@ -174,7 +174,6 @@ void VideoSpeedup::ProcessVideo(int erodeRadius, int skipFrames, const char *sig
 		}
 		delete[] signalArray;
 	}
-	in.set(CV_CAP_PROP_POS_FRAMES,0);
 }
 
 #define PI 3.1415
@@ -196,8 +195,8 @@ void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float c
 	int meand = ceil(meanSpan*inrate/2);
 
 
-	Mat tmp = signal;
-	Mat tmp2(tmp);
+	Mat tmp = signal.clone();
+	Mat tmp2 = tmp.clone();
 	dilate(tmp,tmp2,Mat::ones(mind,1,CV_32F));
 	
 	for(int i = 0; i < nFrames; i++)
@@ -246,7 +245,7 @@ void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float c
 		//cout << "Total number of frames: " << 
 		for(; i < nFrames; i++)
 		{
-			if(chunkFramesWritten > MaxChunkFramesWritten && tmp2.at<float>(i,0) > fastSpeed*0.8 && (tmp2.at<float>(i,1) > fastSpeed*0.8 || !dual))
+			if(chunkFramesWritten > MaxChunkFramesWritten && tmp.at<float>(i,0) > fastSpeed*0.8 && (tmp.at<float>(i,1) > fastSpeed*0.8 || !dual))
 			{
 				//cout << "ACHTUNG!" << endl;
 				break;
@@ -256,14 +255,14 @@ void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float c
 			if(frame.rows == 0)
 				continue;
 			
-			if(i-lastWritten < tmp2.at<float>(i,0) && (!dual || i-lastWritten < tmp2.at<float>(i,1)))
+			if(i-lastWritten < tmp.at<float>(i,0) && (!dual || i-lastWritten < tmp.at<float>(i,1)))
 				continue;
 
 
 			blur(frame, blurStrong, Size(int(frame.cols/40),int(frame.cols/40)));
 			blur(frame, blurWeak, Size(int(frame.cols/80),int(frame.cols/80)));
 
-			int msec = in.get(CV_CAP_PROP_POS_MSEC)-startmsec+startTime*1000;
+			int msec = (i*1000)/inrate+startTime*1000;
 			int hours = msec/(3600*1000);
 			int minutes = (msec % (3600*1000))/(60*1000);
 			int seconds = (msec % (60*1000))/(1000);
