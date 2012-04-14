@@ -228,7 +228,7 @@ void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float c
 		ostringstream outvideoname;
 		outvideoname << dir << prefix << "_" << chunkIndex << ".avi";
 		cout << "1";
-		VideoWriter out(outvideoname.str(), CV_FOURCC('X','2','6','4'), inrate, Size(OUTWIDTH,OUTHEIGHT), 1);
+		VideoWriter out(outvideoname.str(), CV_FOURCC('D','I','V','X'), inrate, Size(OUTWIDTH,OUTHEIGHT), 1);
 		cout << "2";
 
 		ofstream timelineout;
