@@ -245,7 +245,9 @@ void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float c
 		//cout << "Total number of frames: " << 
 		for(; i < nFrames; i++)
 		{
-			if(chunkFramesWritten > MaxChunkFramesWritten && tmp.at<float>(i,0) > fastSpeed*0.8 && (tmp.at<float>(i,1) > fastSpeed*0.8 || !dual))
+			 if(chunkFramesWritten > MaxChunkFramesWritten && tmp.at<float>(i,0) > fastSpeed*0.8 && (tmp.at<float>(i,1) > fastSpeed*0.8 || !dual)
+    && (nFrames - i)/fastSpeed > MaxChunkFramesWritten/5)
+    			 
 			{
 				//cout << "ACHTUNG!" << endl;
 				break;
