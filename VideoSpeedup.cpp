@@ -58,7 +58,7 @@ VideoSpeedup::VideoSpeedup(const string& invideoname, const string& inpolyname) 
 	Mat frame;
 
 	in >> frame;
-	Mat fullmask(frame.size(),CV_8U);
+	Mat fullmask(frame.size(),CV_8U, cvScalar(0));
 	printf("Width: %d, Height: %d\n", frame.size().width, frame.size().height);
 
 
