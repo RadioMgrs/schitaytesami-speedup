@@ -217,6 +217,7 @@ void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float c
 
 	int MaxChunkFramesWritten = chunkLength*inrate;
 	int lastWritten = -1000000;
+	int lastSlow = -1000000;
 	int nFramesWritten = 0;
 	Mat blurStrong;
 	Mat blurWeak;
