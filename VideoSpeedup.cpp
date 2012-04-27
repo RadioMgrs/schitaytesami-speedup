@@ -245,13 +245,8 @@ void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float c
 		//cout << "Total number of frames: " << 
 		for(; i < nFrames; i++)
 		{
-			 if(chunkFramesWritten > MaxChunkFramesWritten && tmp.at<float>(i,0) > fastSpeed*0.8 && (tmp.at<float>(i,1) > fastSpeed*0.8 || !dual)
-    && (nFrames - i)/fastSpeed > MaxChunkFramesWritten/5)
-    			 
-			{
-				//cout << "ACHTUNG!" << endl;
+			 if(chunkFramesWritten > MaxChunkFramesWritten && nFramesWritten - lastSlow > 1.5*inrate  && (nFrames - i)/fastSpeed > MaxChunkFramesWritten/5)
 				break;
-			}
 			in >> frame;
 
 			if(frame.rows == 0)
@@ -261,8 +256,8 @@ void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float c
 				continue;
 
 
-			blur(frame, blurStrong, Size(int(frame.cols/40),int(frame.cols/40)));
-			blur(frame, blurWeak, Size(int(frame.cols/80),int(frame.cols/80)));
+			blur(frame, blurStrong, Size(int(frame.cols/60),int(frame.cols/60)));
+			blur(frame, blurWeak, Size(int(frame.cols/120),int(frame.cols/120)));
 
 			int msec = (i*1000)/inrate+startTime*1000;
 			int hours = msec/(3600*1000);
@@ -298,7 +293,10 @@ void VideoSpeedup::SpeedupVideo(const string& dir, const string& prefix, float c
 			
 
 			timelineout << chunkFramesWritten << " " << i << " " << ssout.str() << " " << ss.str() << "\n";
-
+			
+			if(tmp.at<float>(i,0) < fastSpeed*0.8 || (tmp.at<float>(i,1) < fastSpeed*0.8 && dual))
+				lastSlow = nFramesWritten;
+			
 			nFramesWritten++;
 			chunkFramesWritten++;
 		}
